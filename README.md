@@ -12,6 +12,8 @@ Users can view departments/employees and add/update employees, departments and r
     "express"
     "dotenv"
 
+![Screenshot](./assets/employeeScrot.png)
+
 <img src="https://img.shields.io/badge/license-MIT-yellow"/>
 
 ## Table-of-Contents
@@ -34,7 +36,8 @@ To run the application:
 ```
 node index.js
 ```
-       
+Application in action:
+https://drive.google.com/file/d/1S8SAxtTGws5CXXZMvNkXAzOXC-PUQ-iI/view?usp=sharing
 ## [license](#table-of-contents)
 <img src="https://img.shields.io/badge/license-MIT-yellow"/>
 
