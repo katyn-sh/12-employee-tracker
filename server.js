@@ -1,14 +1,17 @@
+// Import and require inquirer/fs/mysql/dotenv
 const inquirer = require('inquirer');
 const fs = require('fs');
 var mysql = require("mysql");
 require('dotenv').config();
 
+// Establish tables
 var roleChoices = [];
 var empChoices = [];
 var deptChoices = [];
 var employeeArray = [];
 var roleArray = [];
 
+// Establish mysql connection
 const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -17,6 +20,7 @@ const connection = mysql.createConnection({
     database: process.env.DB_NAME,
 });
 
+// initial inquirer configuration
 function runApp() {
     inquirer
         .prompt({
@@ -64,6 +68,7 @@ function runApp() {
         });
 }
 
+// inquirer async for viewing employees
 async function viewAllEmployees() {
     console.log(' ');
     await connection.query('SELECT e.id, e.first_name AS First_Name, e.last_name AS Last_Name, title AS Title, salary AS Salary, name AS Department, CONCAT(m.first_name, " ", m.last_name) AS Manager FROM employee e LEFT JOIN employee m ON e.manager_id = m.id INNER JOIN role r ON e.role_id = r.id INNER JOIN department d ON r.department_id = d.id', (err, res) => {
@@ -73,6 +78,7 @@ async function viewAllEmployees() {
     });
 };
 
+// inquirer async for viewing departments
 async function viewDepartments() {
     console.log(' ');
     await connection.query('SELECT id, name AS department FROM department', (err, res) => {
@@ -82,6 +88,7 @@ async function viewDepartments() {
     })
 };
 
+// inquirer async for viewing roles
 async function viewRole() {
     console.log(' ');
     await connection.query('SELECT r.id, title, salary, name AS department FROM role r LEFT JOIN department d ON department_id = d.id', (err, res) => {
@@ -91,6 +98,7 @@ async function viewRole() {
     })
 };
 
+// inquirer async for adding employees
 async function addEmployee() {
     checkRole()
     checkEmployee()
@@ -138,6 +146,7 @@ async function addEmployee() {
     });
 };
 
+// inquirer async for checking roles
 function checkRole() {
 
     connection.query("SELECT * FROM role", function (err, data) {
@@ -148,6 +157,7 @@ function checkRole() {
     })
 }
 
+// inquirer async for checking employees
 function checkEmployee() {
     connection.query("SELECT * FROM employee", function (err, data) {
         if (err) throw err;
@@ -157,6 +167,7 @@ function checkEmployee() {
     })
 }
 
+// inquirer async for adding departments
 async function addDepartment() {
     inquirer.prompt([
         {
@@ -173,6 +184,7 @@ async function addDepartment() {
     })
 };
 
+// inquirer async for adding roles
 async function addRole() {
 
     checkRole()
@@ -210,6 +222,7 @@ async function addRole() {
     });
 };
 
+// function for checking department
 function checkDepartment() {
     connection.query("SELECT * FROM department", function (err, data) {
         if (err) throw err;
@@ -219,6 +232,7 @@ function checkDepartment() {
     })
 }
 
+//async function for updating roles
 async function updateRole() {
     connection.query('SELECT * FROM employee', function (err, result) {
         if (err) throw (err);
